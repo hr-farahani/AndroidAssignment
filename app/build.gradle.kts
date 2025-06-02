@@ -1,9 +1,11 @@
 plugins {
+    kotlin("plugin.serialization") version "2.1.10"
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     id("kotlin-parcelize")
 }
 
@@ -19,6 +21,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
     buildTypes {
@@ -75,20 +81,26 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlin.serialization)
-
-
     implementation(libs.okhttp.logging.interceptor)
 
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    testImplementation(libs.room.testing)
 
+    implementation(libs.timber)
 
+    implementation(libs.androidx.hilt.navigation.compose)
 
+    implementation(libs.androidx.navigation.compose)
+    androidTestImplementation(libs.androidx.navigation.testing)
 
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    ksp(libs.androidx.lifecycle.compiler)
 
+    implementation(libs.kotlinx.serialization.json)
 
-
-
-
-
-
-
+    implementation(libs.androidx.compose.material.icons.extended)
 }
