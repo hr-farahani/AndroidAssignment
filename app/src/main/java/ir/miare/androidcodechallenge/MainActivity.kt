@@ -2,8 +2,10 @@ package ir.miare.androidcodechallenge
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import ir.miare.androidcodechallenge.databinding.ActivityMainBinding
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     var binding: ActivityMainBinding? = null
