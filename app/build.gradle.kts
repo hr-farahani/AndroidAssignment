@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "ir.miare.androidcodechallenge"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -31,20 +31,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "21"
     }
-
     buildFeatures {
-        viewBinding = true
+        buildConfig = true
         compose = true
+    }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
     }
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -61,11 +66,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     testImplementation(libs.kotlinx.coroutines.test)
@@ -81,16 +81,14 @@ dependencies {
 
 
 
-// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
 
-    implementation("androidx.fragment:fragment-ktx:1.8.7")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0")
 
-    testImplementation("org.robolectric:robolectric:4.14.1")
-    testImplementation("org.robolectric:shadows-multidex::4.14.1")
 
-    implementation("com.github.javaherisaber.MockFit:runtime:2.0.0")
-    ksp("com.github.javaherisaber.MockFit:compiler:2.0.0")
+
+
+
+
+
+
 }

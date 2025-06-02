@@ -1,22 +1,49 @@
 package ir.miare.androidcodechallenge
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
-import ir.miare.androidcodechallenge.databinding.ActivityMainBinding
+import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-    var binding: ActivityMainBinding? = null
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
+        enableEdgeToEdge()
+        setContent {
+            AndroidCodeChallengeTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
+        }
+    }
+}
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, RankingFragment(-1))
-            .commit()
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    AndroidCodeChallengeTheme {
+        Greeting("Android Code Challenge")
     }
 }
