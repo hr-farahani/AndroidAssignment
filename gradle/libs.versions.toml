@@ -15,6 +15,7 @@ okhttp = "4.12.0"
 retrofit = "3.0.0"
 ksp = "2.1.20-2.0.1"
 room = "2.7.1"
+worke = "2.10.1"
 
 timber = "5.0.1"
 navigation = "2.8.6"
@@ -65,8 +66,7 @@ androidx-navigation-testing = { group = "androidx.navigation", name = "navigatio
 #Icons
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIcons" }
 
-
-
+#Room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
@@ -83,6 +83,9 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 #kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
+#Workmanager
+worke-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "worke"}
 
 
 [plugins]
