@@ -107,4 +107,7 @@ dependencies {
     implementation(libs.worke.runtime.ktx)
 
     implementation(libs.gson)
+
+    implementation(libs.androidx.compose.runtime.tracing)
+    implementation(libs.androidx.tracing.ktx)
 }
