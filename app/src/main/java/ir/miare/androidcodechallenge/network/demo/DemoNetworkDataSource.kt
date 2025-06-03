@@ -4,8 +4,8 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.M
 import ir.miare.androidcodechallenge.network.JvmUnitTestDemoAssetManager
 import ir.miare.androidcodechallenge.network.NetworkDataSource
-import ir.miare.androidcodechallenge.network.di.Dis
-import ir.miare.androidcodechallenge.network.di.Dispatcher
+import ir.miare.androidcodechallenge.common.di.Dis
+import ir.miare.androidcodechallenge.common.di.Dispatcher
 import ir.miare.androidcodechallenge.network.model.FakeData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

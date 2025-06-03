@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import ir.miare.androidcodechallenge.domain.model.PlayerResource
 
 @Entity(
     tableName = "player_tbl",
@@ -31,3 +32,11 @@ data class PlayerEntity(
     val name: String,
     val totalGoal: Int
 )
+
+fun PlayerEntity.asExternalModel(): PlayerResource {
+    return PlayerResource(
+        playerId = id,
+        name = name,
+        totalGoal = totalGoal
+    )
+}

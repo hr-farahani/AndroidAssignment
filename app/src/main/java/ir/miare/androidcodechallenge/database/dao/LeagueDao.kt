@@ -21,4 +21,7 @@ interface LeagueDao {
 
     @Query("SELECT * FROM league_tbl")
     fun getAllLeagues(): Flow<List<LeagueEntity>>
+
+    @Query("SELECT * FROM league_tbl")
+    suspend fun getAllLeaguesOneShot(): List<LeagueEntity>
 }

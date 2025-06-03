@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge.network.di
+package ir.miare.androidcodechallenge.common.di
 
 import dagger.Module
 import dagger.Provides
