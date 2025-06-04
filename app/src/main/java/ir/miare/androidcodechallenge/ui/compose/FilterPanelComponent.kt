@@ -2,11 +2,13 @@ package ir.miare.androidcodechallenge.ui.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -30,7 +32,7 @@ enum class FilterOption(val text: String) {
 @Composable
 fun FilterPanelComponent(
     modifier: Modifier = Modifier,
-    onFilterClicked: (FilterOption) -> Unit
+    reportScreen: @Composable (FilterOption) -> Unit
 ) {
     val radioOptions = listOf(
         FilterOption.TEAM_LEAGUE,
@@ -38,7 +40,7 @@ fun FilterPanelComponent(
         FilterOption.AVERAGE_GOAL,
         FilterOption.NONE
     )
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[3]) }
     Column(
         modifier
             .selectableGroup()
@@ -52,10 +54,7 @@ fun FilterPanelComponent(
                     .height(56.dp)
                     .selectable(
                         selected = (option == selectedOption),
-                        onClick = {
-                            onOptionSelected(option)
-                            onFilterClicked(option)
-                        },
+                        onClick = { onOptionSelected(option) },
                         role = Role.RadioButton
                     )
                     .padding(horizontal = 16.dp),
@@ -72,6 +71,9 @@ fun FilterPanelComponent(
                 )
             }
         }
+
+        HorizontalDivider()
+        reportScreen(selectedOption)
     }
 
 }
@@ -81,7 +83,9 @@ fun FilterPanelComponent(
 private fun FilterPanelComponentPreview() {
     AndroidCodeChallengeTheme {
         FilterPanelComponent(
-            onFilterClicked = {}
+            reportScreen = {
+                Column(modifier = Modifier.fillMaxSize()) { }
+            }
         )
     }
 }

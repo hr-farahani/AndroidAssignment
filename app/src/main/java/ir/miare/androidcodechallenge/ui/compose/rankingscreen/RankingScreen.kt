@@ -2,14 +2,10 @@ package ir.miare.androidcodechallenge.ui.compose.rankingscreen
 
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,13 +13,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ir.miare.androidcodechallenge.ui.compose.FilterOption
 import ir.miare.androidcodechallenge.ui.compose.FilterPanelComponent
-import ir.miare.androidcodechallenge.ui.compose.LeagueUiItem
-import ir.miare.androidcodechallenge.ui.compose.PlayerUiItem
-import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import ir.miare.androidcodechallenge.ui.compose.LoadingWheel
+import ir.miare.androidcodechallenge.ui.compose.LeaguePlayersUiScreen
 import ir.miare.androidcodechallenge.ui.fakedata.Fake
+import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 import timber.log.Timber
 
 @Composable
@@ -56,54 +48,45 @@ fun RankingScreen(
 ) {
 
     LaunchedEffect(fetchDataUiState) {
-        when(fetchDataUiState) {
+        when (fetchDataUiState) {
             is FetchDataUiState.Success -> {
                 Timber.tag("SeedDatabaseWorker").i("Success Loading")
             }
+
             is FetchDataUiState.Loading -> {
 
             }
+
             else -> {}
         }
     }
 
     Column(modifier = modifier) {
-        FilterPanelComponent(onFilterClicked = onFilterClicked)
+        FilterPanelComponent(
+            reportScreen = { filterOption ->
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            when (leaguePlayerState) {
-                is LeaguePlayersUiState.Success -> {
-                    leaguePlayerState.data.forEach { (league, players) ->
-                        stickyHeader {
-                            HorizontalDivider()
-                            LeagueUiItem(league = league)
-                        }
-
-                        items(players) { player ->
-                            PlayerUiItem(
-                                player = player
-                            )
-                        }
-                    }
+                LaunchedEffect(filterOption) {
+                    onFilterClicked(filterOption)
                 }
-                is LeaguePlayersUiState.Loading -> {
-                    item {
-                        LoadingWheel(
-                            modifier = Modifier.fillMaxSize(),
-                            contentDesc = "league player loading wheel"
-                        )
+
+                when (filterOption) {
+                    FilterOption.TEAM_LEAGUE -> {
+
                     }
+
+                    FilterOption.MOST_GOAL -> {
+
+                    }
+
+                    FilterOption.AVERAGE_GOAL -> {
+
+                    }
+
+                    else -> LeaguePlayersUiScreen(leaguePlayerState = leaguePlayerState)
+
                 }
-                else -> {}
             }
-
-        }
-
+        )
     }
 
 }
