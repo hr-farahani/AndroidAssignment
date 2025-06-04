@@ -1,5 +1,6 @@
 package ir.miare.androidcodechallenge.ui.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,13 +19,15 @@ import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 @Composable
 fun PlayerUiItem(
     modifier: Modifier = Modifier,
-    player: PlayerWithLeagueAndTeamResource
+    player: PlayerWithLeagueAndTeamResource,
+    onPlayerClicked: (player: PlayerWithLeagueAndTeamResource) -> Unit,
 ) {
 
     Row(
         modifier = modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onPlayerClicked(player) },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
@@ -53,6 +56,9 @@ fun PlayerUiItem(
 @Composable
 fun PlayerUiItemPreview() {
     AndroidCodeChallengeTheme {
-        PlayerUiItem(player = Fake.playerTeamLeague)
+        PlayerUiItem(
+            player = Fake.playerTeamLeague,
+            onPlayerClicked = {}
+        )
     }
 }
