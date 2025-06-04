@@ -34,10 +34,14 @@ class RankingViewModel @Inject constructor(
         MutableStateFlow<LeaguePlayersUiState>(LeaguePlayersUiState.Loading)
     val leaguePlayersUiState = _leaguePlayersUiState.asStateFlow()
 
+    private val _playersGoalScoreUiState =
+        MutableStateFlow<PlayersGoalScoreUiState>(PlayersGoalScoreUiState.Loading)
+    val playersGoalScoreUiState = _playersGoalScoreUiState.asStateFlow()
+
     init {
         viewModelScope.launch {
             fetchData.invoke().asResult().collectLatest {
-                _fetchDataUiState.value = when(it) {
+                _fetchDataUiState.value = when (it) {
                     is Result.Success<*> -> FetchDataUiState.Success
                     is Result.Error -> FetchDataUiState.Loading
                     else -> FetchDataUiState.Loading
@@ -52,23 +56,33 @@ class RankingViewModel @Inject constructor(
                 FilterOption.NONE -> {
                     _leaguePlayersUiState.value = LeaguePlayersUiState.Loading
                     getLeaguePlayers.invoke().asResult().collectLatest { result ->
-                        when (result) {
+                        _leaguePlayersUiState.value = when (result) {
                             is Result.Success<Map<LeagueResource, List<PlayerWithLeagueAndTeamResource>>> ->
-                                _leaguePlayersUiState.value =
-                                    LeaguePlayersUiState.Success(result.data)
+                                LeaguePlayersUiState.Success(result.data)
 
-                            is Result.Error -> _leaguePlayersUiState.value =
-                                LeaguePlayersUiState.Error
-
-                            else -> _leaguePlayersUiState.value = LeaguePlayersUiState.Loading
+                            is Result.Error -> LeaguePlayersUiState.Error
+                            else -> LeaguePlayersUiState.Loading
                         }
                     }
-
-
                 }
 
                 FilterOption.TEAM_LEAGUE -> {}
-                FilterOption.MOST_GOAL -> {}
+                FilterOption.MOST_GOAL -> {
+                    _playersGoalScoreUiState.value = PlayersGoalScoreUiState.Loading
+                    getPlayerInfoUseCase.getAllPlayersOrderByGoalsScored().asResult()
+                        .collectLatest { result ->
+                            _playersGoalScoreUiState.value = when (result) {
+                                is Result.Success<List<PlayerWithLeagueAndTeamResource>> -> {
+                                    PlayersGoalScoreUiState.Success(result.data)
+                                }
+
+                                is Result.Error -> PlayersGoalScoreUiState.Error
+                                is Result.Loading -> PlayersGoalScoreUiState.Loading
+                            }
+                        }
+
+                }
+
                 FilterOption.AVERAGE_GOAL -> {}
             }
         }
@@ -82,9 +96,19 @@ sealed interface FetchDataUiState {
 }
 
 sealed interface LeaguePlayersUiState {
-    data class Success(val data: Map<LeagueResource, List<PlayerWithLeagueAndTeamResource>>) :
-        LeaguePlayersUiState
+    data class Success(
+        val data: Map<LeagueResource, List<PlayerWithLeagueAndTeamResource>>
+    ) : LeaguePlayersUiState
 
     data object Error : LeaguePlayersUiState
     data object Loading : LeaguePlayersUiState
+}
+
+sealed interface PlayersGoalScoreUiState {
+    data class Success(
+        val data: List<PlayerWithLeagueAndTeamResource>
+    ) : PlayersGoalScoreUiState
+
+    data object Error : PlayersGoalScoreUiState
+    data object Loading : PlayersGoalScoreUiState
 }

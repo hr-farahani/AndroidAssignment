@@ -14,6 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ir.miare.androidcodechallenge.ui.compose.FilterOption
 import ir.miare.androidcodechallenge.ui.compose.FilterPanelComponent
 import ir.miare.androidcodechallenge.ui.compose.LeaguePlayersUiScreen
+import ir.miare.androidcodechallenge.ui.compose.MostGoalsScoredUiScreen
 import ir.miare.androidcodechallenge.ui.fakedata.Fake
 import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 import timber.log.Timber
@@ -26,11 +27,13 @@ fun RankingScreenRoute(
 
     val fetchDataUiState by rankingViewModel.fetchDataUiState.collectAsStateWithLifecycle()
     val leaguePlayerUiState by rankingViewModel.leaguePlayersUiState.collectAsStateWithLifecycle()
+    val playerGoalScoreUiState by rankingViewModel.playersGoalScoreUiState.collectAsStateWithLifecycle()
 
     RankingScreen(
         modifier = modifier,
         fetchDataUiState = fetchDataUiState,
         leaguePlayerState = leaguePlayerUiState,
+        playersGoalScoreUiState = playerGoalScoreUiState,
         onFilterClicked = {
             rankingViewModel.applyFilter(it)
         }
@@ -44,6 +47,7 @@ fun RankingScreen(
     modifier: Modifier = Modifier,
     fetchDataUiState: FetchDataUiState,
     leaguePlayerState: LeaguePlayersUiState,
+    playersGoalScoreUiState: PlayersGoalScoreUiState,
     onFilterClicked: (FilterOption) -> Unit
 ) {
 
@@ -74,9 +78,7 @@ fun RankingScreen(
 
                     }
 
-                    FilterOption.MOST_GOAL -> {
-
-                    }
+                    FilterOption.MOST_GOAL -> MostGoalsScoredUiScreen(playersGoalScoreUiState = playersGoalScoreUiState)
 
                     FilterOption.AVERAGE_GOAL -> {
 
@@ -102,6 +104,7 @@ private fun RankingScreenPreview() {
             leaguePlayerState = LeaguePlayersUiState.Success(
                 data = mapOf(Fake.league to listOf(Fake.playerTeamLeague))
             ),
+            playersGoalScoreUiState = PlayersGoalScoreUiState.Loading,
             onFilterClicked = {
                 Toast.makeText(ctx, it.text, Toast.LENGTH_SHORT).show()
             }

@@ -34,13 +34,13 @@ fun LeaguePlayersUiScreen(
                         LeagueUiItem(league = league)
                     }
 
-                    items(players) { player ->
-                        PlayerUiItem(
-                            player = player
-                        )
+                    items(items = players, key = { it.player.playerId }) { player ->
+                        PlayerUiItem(player = player)
                     }
                 }
             }
+
+            is LeaguePlayersUiState.Error -> {}
             is LeaguePlayersUiState.Loading -> {
                 item {
                     LoadingWheel(
@@ -49,7 +49,6 @@ fun LeaguePlayersUiScreen(
                     )
                 }
             }
-            else -> {}
         }
 
     }

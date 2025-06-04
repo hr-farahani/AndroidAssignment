@@ -45,6 +45,9 @@ interface LeagueTeamPlayerDao {
     @Query("SELECT * FROM player_tbl")
     suspend fun getAllPlayersWithLeagueAndTeamOneShot(): List<PlayerWithLeagueAndTeam>
 
+    @Query("SELECT * FROM player_tbl ORDER BY totalGoal DESC")
+    fun getAllPlayersOrderByMostGoalsScored(): Flow<List<PlayerWithLeagueAndTeam>>
+
 
     @Query(
         """

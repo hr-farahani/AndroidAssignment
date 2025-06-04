@@ -10,7 +10,6 @@ import ir.miare.androidcodechallenge.database.model.asExternalResource
 import ir.miare.androidcodechallenge.database.model.entities.asExternalModel
 import ir.miare.androidcodechallenge.domain.model.LeagueResource
 import ir.miare.androidcodechallenge.domain.model.LeagueWithAverageGoalsResource
-import ir.miare.androidcodechallenge.domain.model.PlayerResource
 import ir.miare.androidcodechallenge.domain.model.PlayerWithLeagueAndTeamResource
 import ir.miare.androidcodechallenge.network.demo.DemoNetworkDataSource
 import ir.miare.androidcodechallenge.network.model.extractDataEntities
@@ -43,17 +42,18 @@ class DemoRepository @Inject constructor(
         emitAll(result)
     }.flowOn(ioDispatcher)
 
-    override fun getLeaguePlayers(): Flow<Map<LeagueResource, List<PlayerWithLeagueAndTeamResource>>> = flow {
-        val result = mutableMapOf<LeagueResource, List<PlayerWithLeagueAndTeamResource>>()
-        val leagues = leagueDao.getAllLeaguesOneShot().map { it.asExternalModel() }
-        leagues.forEach { league ->
-            val leaguePlayer = leagueTeamPlayerDao.getLeagueWithPlayersOneShot(league.leagueId)
-            result.put(league, leaguePlayer.players.map {
-                leagueTeamPlayerDao.getPlayerWithLeagueAndTeamOneShot(it.id).asExternalModel()
-            })
-        }
-        emit(result)
-    }.flowOn(ioDispatcher)
+    override fun getLeaguePlayers(): Flow<Map<LeagueResource, List<PlayerWithLeagueAndTeamResource>>> =
+        flow {
+            val result = mutableMapOf<LeagueResource, List<PlayerWithLeagueAndTeamResource>>()
+            val leagues = leagueDao.getAllLeaguesOneShot().map { it.asExternalModel() }
+            leagues.forEach { league ->
+                val leaguePlayer = leagueTeamPlayerDao.getLeagueWithPlayersOneShot(league.leagueId)
+                result.put(league, leaguePlayer.players.map {
+                    leagueTeamPlayerDao.getPlayerWithLeagueAndTeamOneShot(it.id).asExternalModel()
+                })
+            }
+            emit(result)
+        }.flowOn(ioDispatcher)
 
     override fun getLeaguesSortedByAvgGoals(): Flow<List<LeagueWithAverageGoalsResource>> = flow {
         val result = leagueTeamPlayerDao.getLeaguesSortedByAvgGoals()
@@ -61,9 +61,11 @@ class DemoRepository @Inject constructor(
         emitAll(result)
     }.flowOn(ioDispatcher)
 
-    override fun getAllPlayersOrderByMostGoalsScored(): Flow<List<PlayerResource>> = flow {
-        val result =
-            playerDao.getAllPlayersOrderByMostGoalsScored().map { it.map { it.asExternalModel() } }
-        emitAll(result)
-    }.flowOn(ioDispatcher)
+    override fun getAllPlayersOrderByMostGoalsScored(): Flow<List<PlayerWithLeagueAndTeamResource>> =
+        flow {
+            val result =
+                leagueTeamPlayerDao.getAllPlayersOrderByMostGoalsScored()
+                    .map { it.map { it.asExternalModel() } }
+            emitAll(result)
+        }.flowOn(ioDispatcher)
 }
