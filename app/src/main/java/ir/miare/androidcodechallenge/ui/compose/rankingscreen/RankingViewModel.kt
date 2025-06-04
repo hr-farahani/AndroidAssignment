@@ -10,6 +10,7 @@ import ir.miare.androidcodechallenge.domain.GetLeaguePlayersUseCase
 import ir.miare.androidcodechallenge.domain.GetLeaguesSortedByAvgGoalsUseCase
 import ir.miare.androidcodechallenge.domain.GetPlayerInfoUseCase
 import ir.miare.androidcodechallenge.domain.model.LeagueResource
+import ir.miare.androidcodechallenge.domain.model.LeagueWithAverageGoalsResource
 import ir.miare.androidcodechallenge.domain.model.PlayerWithLeagueAndTeamResource
 import ir.miare.androidcodechallenge.ui.compose.FilterOption
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,6 +39,10 @@ class RankingViewModel @Inject constructor(
         MutableStateFlow<PlayersGoalScoreUiState>(PlayersGoalScoreUiState.Loading)
     val playersGoalScoreUiState = _playersGoalScoreUiState.asStateFlow()
 
+    private val _leagueWithAvgGoalUiState =
+        MutableStateFlow<LeagueAvgGoalUiState>(LeagueAvgGoalUiState.Loading)
+    val leagueWithAvgGoalUiState = _leagueWithAvgGoalUiState.asStateFlow()
+
     init {
         viewModelScope.launch {
             fetchData.invoke().asResult().collectLatest {
@@ -61,7 +66,7 @@ class RankingViewModel @Inject constructor(
                                 LeaguePlayersUiState.Success(result.data)
 
                             is Result.Error -> LeaguePlayersUiState.Error
-                            else -> LeaguePlayersUiState.Loading
+                            is Result.Loading -> LeaguePlayersUiState.Loading
                         }
                     }
                 }
@@ -83,7 +88,18 @@ class RankingViewModel @Inject constructor(
 
                 }
 
-                FilterOption.AVERAGE_GOAL -> {}
+                FilterOption.AVERAGE_GOAL -> {
+                    _leagueWithAvgGoalUiState.value = LeagueAvgGoalUiState.Loading
+                    getLeaguesSortedByAvgGoalsUseCase.invoke().asResult().collectLatest { result ->
+                        _leagueWithAvgGoalUiState.value = when (result) {
+                            is Result.Success<List<LeagueWithAverageGoalsResource>> ->
+                                LeagueAvgGoalUiState.Success(result.data)
+
+                            is Result.Error -> LeagueAvgGoalUiState.Error
+                            is Result.Loading -> LeagueAvgGoalUiState.Loading
+                        }
+                    }
+                }
             }
         }
     }
@@ -111,4 +127,13 @@ sealed interface PlayersGoalScoreUiState {
 
     data object Error : PlayersGoalScoreUiState
     data object Loading : PlayersGoalScoreUiState
+}
+
+sealed interface LeagueAvgGoalUiState {
+    data class Success(
+        val data: List<LeagueWithAverageGoalsResource>
+    ) : LeagueAvgGoalUiState
+
+    data object Error : LeagueAvgGoalUiState
+    data object Loading : LeagueAvgGoalUiState
 }

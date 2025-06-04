@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ir.miare.androidcodechallenge.ui.compose.AverageGoalPerMatchUiScreen
 import ir.miare.androidcodechallenge.ui.compose.FilterOption
 import ir.miare.androidcodechallenge.ui.compose.FilterPanelComponent
 import ir.miare.androidcodechallenge.ui.compose.LeaguePlayersUiScreen
@@ -28,12 +29,14 @@ fun RankingScreenRoute(
     val fetchDataUiState by rankingViewModel.fetchDataUiState.collectAsStateWithLifecycle()
     val leaguePlayerUiState by rankingViewModel.leaguePlayersUiState.collectAsStateWithLifecycle()
     val playerGoalScoreUiState by rankingViewModel.playersGoalScoreUiState.collectAsStateWithLifecycle()
+    val leagueWithAvgGoalUiState by rankingViewModel.leagueWithAvgGoalUiState.collectAsStateWithLifecycle()
 
     RankingScreen(
         modifier = modifier,
         fetchDataUiState = fetchDataUiState,
         leaguePlayerState = leaguePlayerUiState,
         playersGoalScoreUiState = playerGoalScoreUiState,
+        leagueAvgGoalUiState = leagueWithAvgGoalUiState,
         onFilterClicked = {
             rankingViewModel.applyFilter(it)
         }
@@ -48,6 +51,7 @@ fun RankingScreen(
     fetchDataUiState: FetchDataUiState,
     leaguePlayerState: LeaguePlayersUiState,
     playersGoalScoreUiState: PlayersGoalScoreUiState,
+    leagueAvgGoalUiState: LeagueAvgGoalUiState,
     onFilterClicked: (FilterOption) -> Unit
 ) {
 
@@ -79,13 +83,8 @@ fun RankingScreen(
                     }
 
                     FilterOption.MOST_GOAL -> MostGoalsScoredUiScreen(playersGoalScoreUiState = playersGoalScoreUiState)
-
-                    FilterOption.AVERAGE_GOAL -> {
-
-                    }
-
+                    FilterOption.AVERAGE_GOAL -> AverageGoalPerMatchUiScreen(leagueAvgGoalUiState = leagueAvgGoalUiState)
                     else -> LeaguePlayersUiScreen(leaguePlayerState = leaguePlayerState)
-
                 }
             }
         )
@@ -105,6 +104,7 @@ private fun RankingScreenPreview() {
                 data = mapOf(Fake.league to listOf(Fake.playerTeamLeague))
             ),
             playersGoalScoreUiState = PlayersGoalScoreUiState.Loading,
+            leagueAvgGoalUiState = LeagueAvgGoalUiState.Loading,
             onFilterClicked = {
                 Toast.makeText(ctx, it.text, Toast.LENGTH_SHORT).show()
             }
