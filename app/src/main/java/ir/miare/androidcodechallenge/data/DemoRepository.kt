@@ -13,9 +13,7 @@ import ir.miare.androidcodechallenge.domain.model.LeagueWithAverageGoalsResource
 import ir.miare.androidcodechallenge.domain.model.PlayerResource
 import ir.miare.androidcodechallenge.domain.model.PlayerWithLeagueAndTeamResource
 import ir.miare.androidcodechallenge.network.demo.DemoNetworkDataSource
-import ir.miare.androidcodechallenge.network.utils.extractAllLeagueEntities
-import ir.miare.androidcodechallenge.network.utils.extractAllPlayerEntities
-import ir.miare.androidcodechallenge.network.utils.extractAllTeamEntities
+import ir.miare.androidcodechallenge.network.model.extractDataEntities
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -34,10 +32,8 @@ class DemoRepository @Inject constructor(
 
     override fun fetchData(): Flow<Unit> = flow {
         val data = datasource.getData()
-        val leagues = data.extractAllLeagueEntities()
-        val teams = data.extractAllTeamEntities()
-        val players = data.extractAllPlayerEntities()
-        leagueTeamPlayerDao.insertAll(leagues, players, teams)
+        val meta = data.extractDataEntities()
+        leagueTeamPlayerDao.insertAll(meta.leagues, meta.players, meta.teams)
         emit(Unit)
     }.flowOn(ioDispatcher)
 
@@ -47,12 +43,14 @@ class DemoRepository @Inject constructor(
         emitAll(result)
     }.flowOn(ioDispatcher)
 
-    override fun getLeaguePlayers(): Flow<Map<LeagueResource, List<PlayerResource>>> = flow {
-        val result = mutableMapOf<LeagueResource, List<PlayerResource>>()
+    override fun getLeaguePlayers(): Flow<Map<LeagueResource, List<PlayerWithLeagueAndTeamResource>>> = flow {
+        val result = mutableMapOf<LeagueResource, List<PlayerWithLeagueAndTeamResource>>()
         val leagues = leagueDao.getAllLeaguesOneShot().map { it.asExternalModel() }
         leagues.forEach { league ->
             val leaguePlayer = leagueTeamPlayerDao.getLeagueWithPlayersOneShot(league.leagueId)
-            result.put(league, leaguePlayer.players.map { it.asExternalModel() })
+            result.put(league, leaguePlayer.players.map {
+                leagueTeamPlayerDao.getPlayerWithLeagueAndTeamOneShot(it.id).asExternalModel()
+            })
         }
         emit(result)
     }.flowOn(ioDispatcher)

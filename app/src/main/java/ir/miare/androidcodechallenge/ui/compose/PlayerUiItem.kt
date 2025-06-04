@@ -11,23 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ir.miare.androidcodechallenge.domain.model.PlayerWithLeagueAndTeamResource
+import ir.miare.androidcodechallenge.ui.fakedata.Fake
 import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
-
-data class FakePlayer(
-    val name: String = "Edin Dzeko",
-    val team: FakeTeam = FakeTeam(),
-    val totalGoal: Int = 17
-)
-
-data class FakeTeam(
-    val name: String = "Inter",
-    val rank: Int = 2
-)
 
 @Composable
 fun PlayerUiItem(
     modifier: Modifier = Modifier,
-    player: FakePlayer
+    player: PlayerWithLeagueAndTeamResource
 ) {
 
     Row(
@@ -39,7 +30,7 @@ fun PlayerUiItem(
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = "${player.team.rank}"
+            text = "${player.team.teamRank}"
         )
         Column(
             modifier = Modifier.weight(6f),
@@ -48,7 +39,7 @@ fun PlayerUiItem(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = player.name
+                text = player.player.name
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -62,6 +53,6 @@ fun PlayerUiItem(
 @Composable
 fun PlayerUiItemPreview() {
     AndroidCodeChallengeTheme {
-        PlayerUiItem(player = FakePlayer())
+        PlayerUiItem(player = Fake.playerTeamLeague)
     }
 }

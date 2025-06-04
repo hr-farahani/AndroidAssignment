@@ -7,26 +7,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ir.miare.androidcodechallenge.domain.model.LeagueResource
+import ir.miare.androidcodechallenge.ui.fakedata.Fake
 import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 import ir.miare.androidcodechallenge.ui.theme.Purple40
 
-@Stable
-data class FakeLeague(
-    val name: String = "Serie A",
-    val country: String = "Italy",
-    val rank: Int = 3,
-    val totalMatches: Int = 32,
-)
 
 @Composable
 fun LeagueUiItem(
     modifier: Modifier = Modifier,
-    league: FakeLeague
+    league: LeagueResource
 ) {
     Row(
         modifier = modifier
@@ -47,6 +41,6 @@ fun LeagueUiItem(
 @Composable
 private fun LeagueUiItemPreview() {
     AndroidCodeChallengeTheme {
-        LeagueUiItem(league = FakeLeague())
+        LeagueUiItem(league = Fake.league)
     }
 }

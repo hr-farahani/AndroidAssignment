@@ -1,11 +1,13 @@
 package ir.miare.androidcodechallenge.database.di
 
 import android.app.Application
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.miare.androidcodechallenge.database.DB
+import ir.miare.androidcodechallenge.database.DB.Companion.DATABASE_NAME
 import ir.miare.androidcodechallenge.database.dao.LeagueDao
 import ir.miare.androidcodechallenge.database.dao.LeagueTeamPlayerDao
 import ir.miare.androidcodechallenge.database.dao.PlayerDao
@@ -14,12 +16,12 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class DatabaseModule {
+object DatabaseModule {
 
     @Singleton
     @Provides
     fun provideDB(application: Application): DB {
-        return DB.getInstance(context = application)
+        return Room.databaseBuilder(application, DB::class.java, DATABASE_NAME).build()
     }
 
     @Singleton

@@ -1,16 +1,17 @@
 package ir.miare.androidcodechallenge.network.model
 
 import ir.miare.androidcodechallenge.database.model.entities.TeamEntity
-import java.util.UUID
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Team(
     val name: String,
     val rank: Int
 )
 
-fun Team.toEntity(): TeamEntity {
+fun Team.toEntity(teamId: String): TeamEntity {
     return TeamEntity(
-        id = UUID.randomUUID().toString(),
+        id = teamId,
         name = name,
         rank = rank
     )

@@ -12,7 +12,7 @@ interface Repository {
 
     fun getPlayerInfo(playerId: String): Flow<PlayerWithLeagueAndTeamResource>
 
-    fun getLeaguePlayers(): Flow<Map<LeagueResource, List<PlayerResource>>>
+    fun getLeaguePlayers(): Flow<Map<LeagueResource, List<PlayerWithLeagueAndTeamResource>>>
 
     fun getLeaguesSortedByAvgGoals(): Flow<List<LeagueWithAverageGoalsResource>>
 

@@ -33,6 +33,18 @@ interface LeagueTeamPlayerDao {
     @Query("SELECT * FROM player_tbl WHERE player_id = :playerId")
     fun getPlayerWithLeagueAndTeam(playerId: String): Flow<PlayerWithLeagueAndTeam>
 
+    @Transaction
+    @Query("SELECT * FROM player_tbl WHERE player_id = :playerId")
+    suspend fun getPlayerWithLeagueAndTeamOneShot(playerId: String): PlayerWithLeagueAndTeam
+
+    @Transaction
+    @Query("SELECT * FROM player_tbl")
+    fun getAllPlayersWithLeagueAndTeam(): Flow<List<PlayerWithLeagueAndTeam>>
+
+    @Transaction
+    @Query("SELECT * FROM player_tbl")
+    suspend fun getAllPlayersWithLeagueAndTeamOneShot(): List<PlayerWithLeagueAndTeam>
+
 
     @Query(
         """
@@ -63,7 +75,7 @@ interface LeagueTeamPlayerDao {
         teams: List<TeamEntity>
     ) {
         insertAllLeagues(leagues)
-        insertAllPlayers(players)
         insertAllTeams(teams)
+        insertAllPlayers(players)
     }
 }
