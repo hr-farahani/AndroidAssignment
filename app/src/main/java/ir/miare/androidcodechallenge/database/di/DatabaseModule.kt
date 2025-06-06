@@ -7,7 +7,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.miare.androidcodechallenge.database.DB
-import ir.miare.androidcodechallenge.database.DB.Companion.DATABASE_NAME
 import ir.miare.androidcodechallenge.database.dao.LeagueDao
 import ir.miare.androidcodechallenge.database.dao.LeagueTeamPlayerDao
 import ir.miare.androidcodechallenge.database.dao.PlayerDao
@@ -21,7 +20,7 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDB(application: Application): DB {
-        return Room.databaseBuilder(application, DB::class.java, DATABASE_NAME).build()
+        return Room.inMemoryDatabaseBuilder(application, DB::class.java).build()
     }
 
     @Singleton

@@ -12,7 +12,7 @@ import ir.miare.androidcodechallenge.domain.GetPlayerInfoUseCase
 import ir.miare.androidcodechallenge.domain.model.LeagueResource
 import ir.miare.androidcodechallenge.domain.model.LeagueWithAverageGoalsResource
 import ir.miare.androidcodechallenge.domain.model.PlayerWithLeagueAndTeamResource
-import ir.miare.androidcodechallenge.ui.compose.FilterOption
+import ir.miare.androidcodechallenge.ui.compose.components.FilterOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
