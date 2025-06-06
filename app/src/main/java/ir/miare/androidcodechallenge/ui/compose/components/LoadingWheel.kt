@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge.ui.compose
+package ir.miare.androidcodechallenge.ui.compose.components
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.Animatable

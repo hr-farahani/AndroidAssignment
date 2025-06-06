@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge.ui.compose
+package ir.miare.androidcodechallenge.ui.compose.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

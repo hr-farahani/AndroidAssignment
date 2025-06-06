@@ -17,6 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import ir.miare.androidcodechallenge.domain.model.PlayerWithLeagueAndTeamResource
+import ir.miare.androidcodechallenge.ui.compose.components.LeagueUiItem
+import ir.miare.androidcodechallenge.ui.compose.components.LoadingWheel
+import ir.miare.androidcodechallenge.ui.compose.components.PlayerInfoModalBottomSheet
+import ir.miare.androidcodechallenge.ui.compose.components.PlayerUiItem
 import ir.miare.androidcodechallenge.ui.compose.rankingscreen.LeaguePlayersUiState
 import ir.miare.androidcodechallenge.ui.fakedata.Fake
 import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme

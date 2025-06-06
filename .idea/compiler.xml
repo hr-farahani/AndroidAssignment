@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="21">
+      <module name="AndroidCodeChallenge.core.common" target="11" />
+      <module name="AndroidCodeChallenge.core.common.main" target="11" />
+      <module name="AndroidCodeChallenge.core.common.test" target="11" />
+      <module name="AndroidCodeChallenge.core.model" target="11" />
+      <module name="AndroidCodeChallenge.core.model.main" target="11" />
+      <module name="AndroidCodeChallenge.core.model.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -12,8 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ir.miare.androidcodechallenge.ui.compose.AverageGoalPerMatchUiScreen
-import ir.miare.androidcodechallenge.ui.compose.FilterOption
-import ir.miare.androidcodechallenge.ui.compose.FilterPanelComponent
+import ir.miare.androidcodechallenge.ui.compose.components.FilterOption
+import ir.miare.androidcodechallenge.ui.compose.components.FilterPanelComponent
 import ir.miare.androidcodechallenge.ui.compose.LeaguePlayersUiScreen
 import ir.miare.androidcodechallenge.ui.compose.MostGoalsScoredUiScreen
 import ir.miare.androidcodechallenge.ui.fakedata.Fake
