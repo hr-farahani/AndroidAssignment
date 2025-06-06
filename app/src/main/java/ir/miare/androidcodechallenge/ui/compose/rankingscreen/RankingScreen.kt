@@ -7,15 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ir.miare.androidcodechallenge.ui.compose.AverageGoalPerMatchUiScreen
-import ir.miare.androidcodechallenge.ui.compose.components.FilterOption
-import ir.miare.androidcodechallenge.ui.compose.components.FilterPanelComponent
 import ir.miare.androidcodechallenge.ui.compose.LeaguePlayersUiScreen
 import ir.miare.androidcodechallenge.ui.compose.MostGoalsScoredUiScreen
+import ir.miare.androidcodechallenge.ui.compose.components.FilterOption
+import ir.miare.androidcodechallenge.ui.compose.components.MainScreen
 import ir.miare.androidcodechallenge.ui.fakedata.Fake
 import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 import timber.log.Timber
@@ -70,8 +71,9 @@ fun RankingScreen(
     }
 
     Column(modifier = modifier) {
-        FilterPanelComponent(
-            reportScreen = { filterOption ->
+        MainScreen(
+            orientation = LocalConfiguration.current.orientation,
+            reportScreen = { modifier, filterOption ->
 
                 LaunchedEffect(filterOption) {
                     onFilterClicked(filterOption)
@@ -82,9 +84,20 @@ fun RankingScreen(
 
                     }
 
-                    FilterOption.MOST_GOAL -> MostGoalsScoredUiScreen(playersGoalScoreUiState = playersGoalScoreUiState)
-                    FilterOption.AVERAGE_GOAL -> AverageGoalPerMatchUiScreen(leagueAvgGoalUiState = leagueAvgGoalUiState)
-                    else -> LeaguePlayersUiScreen(leaguePlayerState = leaguePlayerState)
+                    FilterOption.MOST_GOAL -> MostGoalsScoredUiScreen(
+                        modifier = modifier,
+                        playersGoalScoreUiState = playersGoalScoreUiState
+                    )
+
+                    FilterOption.AVERAGE_GOAL -> AverageGoalPerMatchUiScreen(
+                        modifier = modifier,
+                        leagueAvgGoalUiState = leagueAvgGoalUiState
+                    )
+
+                    else -> LeaguePlayersUiScreen(
+                        modifier = modifier,
+                        leaguePlayerState = leaguePlayerState
+                    )
                 }
             }
         )

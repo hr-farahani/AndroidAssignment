@@ -14,13 +14,16 @@ import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AndroidCodeChallengeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RankingScreenRoute(modifier = Modifier.padding(innerPadding))
+                    RankingScreenRoute(
+                        modifier = Modifier.padding(innerPadding),
+                    )
                 }
             }
         }

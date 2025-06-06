@@ -2,25 +2,19 @@ package ir.miare.androidcodechallenge.ui.compose.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 
 enum class FilterOption(val text: String) {
     TEAM_LEAGUE("Team & league ranking"),
@@ -32,15 +26,10 @@ enum class FilterOption(val text: String) {
 @Composable
 fun FilterPanelComponent(
     modifier: Modifier = Modifier,
-    reportScreen: @Composable (FilterOption) -> Unit
+    radioOptions: List<FilterOption>,
+    selectedOption: FilterOption,
+    onOptionSelected: (FilterOption) -> Unit,
 ) {
-    val radioOptions = listOf(
-        FilterOption.TEAM_LEAGUE,
-        FilterOption.MOST_GOAL,
-        FilterOption.AVERAGE_GOAL,
-        FilterOption.NONE
-    )
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[3]) }
     Column(
         modifier
             .selectableGroup()
@@ -53,7 +42,7 @@ fun FilterPanelComponent(
                     .fillMaxWidth()
                     .height(56.dp)
                     .selectable(
-                        selected = (option == selectedOption),
+                        selected = option == selectedOption,
                         onClick = { onOptionSelected(option) },
                         role = Role.RadioButton
                     )
@@ -61,7 +50,7 @@ fun FilterPanelComponent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = (option == selectedOption),
+                    selected = option == selectedOption,
                     onClick = null // null recommended for accessibility with screen readers
                 )
                 Text(
@@ -71,21 +60,5 @@ fun FilterPanelComponent(
                 )
             }
         }
-
-        HorizontalDivider()
-        reportScreen(selectedOption)
-    }
-
-}
-
-@Preview
-@Composable
-private fun FilterPanelComponentPreview() {
-    AndroidCodeChallengeTheme {
-        FilterPanelComponent(
-            reportScreen = {
-                Column(modifier = Modifier.fillMaxSize()) { }
-            }
-        )
     }
 }
