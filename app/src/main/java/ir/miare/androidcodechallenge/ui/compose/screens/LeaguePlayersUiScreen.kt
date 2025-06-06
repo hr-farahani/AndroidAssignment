@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge.ui.compose
+package ir.miare.androidcodechallenge.ui.compose.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement

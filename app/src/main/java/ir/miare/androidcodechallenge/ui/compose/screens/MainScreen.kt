@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge.ui.compose.components
+package ir.miare.androidcodechallenge.ui.compose.screens
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ir.miare.androidcodechallenge.ui.compose.components.FilterOption
+import ir.miare.androidcodechallenge.ui.compose.components.FilterPanelComponent
 import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 
 @Composable

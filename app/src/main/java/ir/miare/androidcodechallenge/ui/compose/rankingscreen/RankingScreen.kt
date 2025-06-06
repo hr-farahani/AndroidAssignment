@@ -12,11 +12,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ir.miare.androidcodechallenge.ui.compose.AverageGoalPerMatchUiScreen
-import ir.miare.androidcodechallenge.ui.compose.LeaguePlayersUiScreen
-import ir.miare.androidcodechallenge.ui.compose.MostGoalsScoredUiScreen
 import ir.miare.androidcodechallenge.ui.compose.components.FilterOption
-import ir.miare.androidcodechallenge.ui.compose.components.MainScreen
+import ir.miare.androidcodechallenge.ui.compose.screens.AverageGoalPerMatchUiScreen
+import ir.miare.androidcodechallenge.ui.compose.screens.LeaguePlayersUiScreen
+import ir.miare.androidcodechallenge.ui.compose.screens.MainScreen
+import ir.miare.androidcodechallenge.ui.compose.screens.MostGoalsScoredUiScreen
+import ir.miare.androidcodechallenge.ui.compose.screens.TeamLeagueRankingScree
 import ir.miare.androidcodechallenge.ui.fakedata.Fake
 import ir.miare.androidcodechallenge.ui.theme.AndroidCodeChallengeTheme
 import timber.log.Timber
@@ -62,9 +63,7 @@ fun RankingScreen(
                 Timber.tag("SeedDatabaseWorker").i("Success Loading")
             }
 
-            is FetchDataUiState.Loading -> {
-
-            }
+            is FetchDataUiState.Loading -> {}
 
             else -> {}
         }
@@ -80,9 +79,7 @@ fun RankingScreen(
                 }
 
                 when (filterOption) {
-                    FilterOption.TEAM_LEAGUE -> {
-
-                    }
+                    FilterOption.TEAM_LEAGUE -> TeamLeagueRankingScree(modifier = modifier)
 
                     FilterOption.MOST_GOAL -> MostGoalsScoredUiScreen(
                         modifier = modifier,
